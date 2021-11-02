@@ -33,7 +33,7 @@
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container">
           <a class="navbar-brand" href="index.html">
-
+            <img src="images/logo.jpg" alt="" />
           </a>
           <div class="navbar-collapse" id="">
             <ul class="navbar-nav justify-content-between ">
@@ -71,9 +71,9 @@
                      <h2>SIGN UP</h2>
 
                        </div>
-                <form method="post" class="form">
+                <form method="post" action="phpScripts/registerUser.php"  class="form">
                   <label for="names" style="padding-top:13px"> &nbsp;Full Names </label>
-                  <input id="fullNames" class="form-content" type="password" name="fullNames" required />
+                  <input id="fullNames" class="form-content" type="text" name="fullNames" required />
                     <div class="form-border"></div>
                <label for="user-email" style="padding-top:13px">
             &nbsp;Email

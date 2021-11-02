@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 
@@ -13,10 +12,8 @@
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-  <title>UTHINK</title>
+<link href="css/login.css" rel="stylesheet" />
+  <title>UTHNK</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -25,23 +22,11 @@
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
-   <style> #toast-container > .toast-error { background-color: #BD362F; } </style>
-   <style> #toast-container > .toast-success  { background-color: #51a351; } </style>
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
-  <?php
-if (isset($_GET['statusRegister'])) {
- echo '<script type="text/javascript">toastr.error("You have been registered on system, please login", "You Have Registered") </script>';
-  }
-
-  if (isset($_GET['send'])) {
-
-   echo '<script type="text/javascript">toastr.success("Your request was send to admin and they will be in contact with you. Thank You", "Lease Agreement Submitted") </script>';
-    }
- ?>
   <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">
@@ -90,29 +75,6 @@ if (isset($_GET['statusRegister'])) {
     <!-- end slider section -->
   </div>
 
-  <!-- find section -->
-  <section class="find_section ">
-    <div class="container">
-      <form action="">
-        <div class=" form-row">
-          <div class="col-md-5">
-            <label  for="user-password" style="padding-top:22px">&nbsp; Search for the location you want to stay in.
-            </label>
-          </div>
-          <div class="col-md-5">
-            <input type="text" class="form-control" placeholder="Location ">
-          </div>
-          <div class="col-md-2">
-            <button type="submit" class="">
-              search
-            </button>
-          </div>
-        </div>
-
-      </form>
-    </div>
-  </section>
-
   <!-- end find section -->
 
 
@@ -125,11 +87,12 @@ if (isset($_GET['statusRegister'])) {
   <section class="sale_section layout_padding-bottom">
     <div class="container-fluid">
       <div class="heading_container">
+        <br>
         <h2>
-          Available Rooms
+          Lease Agreement
         </h2>
         <p>
-          Please select the room that feels like home to you
+          Please sign the lease agreement if want to secure the room.
         </p>
       </div>
       <div class="sale_container">
@@ -137,13 +100,9 @@ if (isset($_GET['statusRegister'])) {
 
 include 'phpScripts/db_connection.php';
 $conn = OpenCon();
-if (!empty($_POST['location']))  {
-  $location = $_POST['location'];
-$sql = "SELECT * FROM rooms WHERE location LIKE '%$location%'  ";
-}
-else {
-$sql = "SELECT * FROM rooms";
-}
+
+  $id = $_GET['id'];
+$sql = "SELECT * FROM rooms WHERE room_id = '$id'  ";
 
 $result = $conn->query($sql);
 //Store the results in an array
@@ -174,11 +133,51 @@ while ($row = mysqli_fetch_assoc($result)) {
             <p>
               <?php echo  $row['description']; ?>
             </p>
-            <div style="margin-top:-45px" class="btn-box">
-                <a href="leaseAgreement.php?id=<?php echo  $row['room_id']; ?>" class="">
-                  Sign Lease Agreement
-                </a>
-              </div>
+
+                      <div id="card" style="width:100%">
+                        <div id="card-content">
+                            <div id="card-title">
+                              <h1>
+                                <span> UTHNK</span> <br>
+
+                              </h1>
+                             <h2>    Lease Agreement</h2>
+
+                               </div>
+                        <form method="post" action="phpScripts/sendRequest.php" class="form">
+
+                       Thank you for taking interest in the room, please note the follow as the Terms and Conditions of the room.
+                       the price of the room is R<?php echo  $row['price']; ?> Per month. <br><br> A R1000 deposit must be paid to fully secure the room. The room is located at:  <?php echo  $row['location']; ?>.
+                        The landlord of this room will be UTHNK, any problems with room will be addressed to UTHINK.
+                        </h6>
+                       </label>
+                       <label for="user-email" style="padding-top:13px">
+                    &nbsp;Tenant Name
+                    </label>
+                    <input style="margin-top:-12px" id="name" class="form-content" type="text" name="name" autocomplete="on" required />
+                    <div class="form-border"></div>
+
+                    <label for="user-email" style="padding-top:13px">
+                 &nbsp;Tenant Phone
+                 </label>
+                 <input style="margin-top:-12px" id="phone" maxlength="10" class="form-content" type="phone" name="phone" autocomplete="on" required />
+                 <div class="form-border"></div>
+
+                    <label for="user-password" style="padding-top:22px">&nbsp;When do you want to move in
+                    </label>
+                    <input  style="margin-top:-12px" id="date" class="form-content" type="date" name="date" min="<?= date('Y-m-d'); ?>" required />
+                    <div class="form-border"></div>
+                    <input  id="address" class="form-content" type="text" name="address" hidden value="<?php echo  $row['location']; ?>" />
+                    <input  id="price" class="form-content" type="text" name="price" hidden value="<?php echo  $row['price']; ?>" />
+              
+                    <a href="#">
+
+                    </a>
+                    <input id="submit-btn" type="submit" name="submit" value="SIGN LEASE" />
+
+                    </form>
+                    </div>
+                    </div>
           </div>
 
         </div>

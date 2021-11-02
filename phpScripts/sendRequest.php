@@ -1,24 +1,15 @@
 <?php
 
- include 'db_connection.php';
-
   //Getting Data from the form
   //jobCode is the primary key
-  $fullNames = $_POST['fullNames'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
+  $address = $_POST['address'];
+  $price = $_POST['price'];
+  $name = $_POST['name'];
+  $phone = $_POST['phone'];
+  $dateOfmoving = $_POST['date'];
  //Open DB Connection
- $conn = OpenCon();
-  // Enter Designations Into DB
- if(!$conn -> query(
-   " INSERT INTO users (fullnames,	email,	password	)
-   VALUES ('$fullNames','$email','$password')"
-   ))
-   {
-     echo("Error description: ". $conn->error);
-   }
- /*
+
+
 
    use PHPMailer\PHPMailer\PHPMailer;
    use PHPMailer\PHPMailer\Exception;
@@ -45,8 +36,8 @@
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
       //Recipients
-      $mail->setFrom('jamesleeroycode@gmail.com', 'Traffic Department Booking System Admin');
-      $mail->addAddress($email, 'System User');     //Add a recipient
+      $mail->setFrom('jamesleeroycode@gmail.com', 'Student-Tenant');
+      $mail->addAddress('endani.nevondo@gmail.com', 'System Admin');     //Add a recipient
     //  $mail->addAddress('ellen@example.com');               //Name is optional
     //  $mail->addReplyTo('info@example.com', 'Information');
     //  $mail->addCC('cc@example.com');
@@ -59,21 +50,20 @@
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
       $mail->Subject = 'Booking Application Submitted';
-      $mail->Body    = 'PLEASE  THIS AN IMPORTANT EMAIL <br> Good Day,   '.$fullNames.'<br> Your booking application has been submitted, please wait for an email that will when you come for the Appoinmtent.   ';
+      $mail->Body    = 'Good Day Admin <br> , the following student is interested in the one of your rooms located at :'.$address.' at R'. $price .' per month. <br>The name of the student is '. $name .'. you can contact the student on: '. $phone. 'The student would like to move in on the following date :'. $dateOfmoving ;
       $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
       $mail->send();
-      echo 'Message has been sent';
+
   } catch (Exception $e) {
-      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
    //CLose DB Connection
-
+header("Location:../dashboard.php?send=send");
 
  //CLose DB Connection
  CloseCon($conn);
 
-*/
- header("Location:../login.php?statusRegister=registered");
+
+ header("Location:../dashboard.php?email=sent");
  exit();
  ?>

@@ -13,9 +13,7 @@
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <link href="css/login.css" rel="stylesheet" />
   <title>UTHINK</title>
 
   <!-- bootstrap core css -->
@@ -25,23 +23,11 @@
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
-   <style> #toast-container > .toast-error { background-color: #BD362F; } </style>
-   <style> #toast-container > .toast-success  { background-color: #51a351; } </style>
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
-  <?php
-if (isset($_GET['statusRegister'])) {
- echo '<script type="text/javascript">toastr.error("You have been registered on system, please login", "You Have Registered") </script>';
-  }
-
-  if (isset($_GET['send'])) {
-
-   echo '<script type="text/javascript">toastr.success("Your request was send to admin and they will be in contact with you. Thank You", "Lease Agreement Submitted") </script>';
-    }
- ?>
   <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">
@@ -54,12 +40,11 @@ if (isset($_GET['statusRegister'])) {
             <ul class="navbar-nav justify-content-between ">
               <div class="User_option">
                 <li class="">
-                  <a class="mr-4" href="adminLogin.php">
-                    Admin Login
+                  <a class="mr-4"  data-target="#modal-default" data-toggle="modal"  id="MainNavHelp"
+       href="#modal-default" >
+                    Add Room
                   </a>
-                  <a class="" href="index.html">
-                    Log-out
-                  </a>
+
                 </li>
               </div>
             </ul>
@@ -90,28 +75,7 @@ if (isset($_GET['statusRegister'])) {
     <!-- end slider section -->
   </div>
 
-  <!-- find section -->
-  <section class="find_section ">
-    <div class="container">
-      <form action="">
-        <div class=" form-row">
-          <div class="col-md-5">
-            <label  for="user-password" style="padding-top:22px">&nbsp; Search for the location you want to stay in.
-            </label>
-          </div>
-          <div class="col-md-5">
-            <input type="text" class="form-control" placeholder="Location ">
-          </div>
-          <div class="col-md-2">
-            <button type="submit" class="">
-              search
-            </button>
-          </div>
-        </div>
 
-      </form>
-    </div>
-  </section>
 
   <!-- end find section -->
 
@@ -123,13 +87,15 @@ if (isset($_GET['statusRegister'])) {
   <!-- sale section -->
 
   <section class="sale_section layout_padding-bottom">
+
     <div class="container-fluid">
       <div class="heading_container">
+        <br>
         <h2>
-          Available Rooms
+          Marketed Rooms
         </h2>
         <p>
-          Please select the room that feels like home to you
+          When a room has been taken please remove it from the Market
         </p>
       </div>
       <div class="sale_container">
@@ -160,23 +126,15 @@ while ($row = mysqli_fetch_assoc($result)) {
             <img src="phpScripts/upload/<?php echo  $row['pic']; ?>" alt="">
           </div>
           <div class="detail-box">
-           <div class="row">
-             <h6>
+            <h6>
               <?php echo  $row['location']; ?>
             </h6>
-
-            <div class="ml-auto mr-3">
-             <h6>    R<?php echo  $row['price']; ?>    </h6>
-            </div>
-
-           </div>
-
             <p>
               <?php echo  $row['description']; ?>
             </p>
             <div style="margin-top:-45px" class="btn-box">
-                <a href="leaseAgreement.php?id=<?php echo  $row['room_id']; ?>" class="">
-                  Sign Lease Agreement
+                <a href="phpScripts/deleteRoom.php?id=<?php echo  $row['room_id']; ?>" class="">
+                  Delete Room
                 </a>
               </div>
           </div>
@@ -190,6 +148,65 @@ while ($row = mysqli_fetch_assoc($result)) {
       </div>
     </div>
   </section>
+
+
+  <div class="modal fade" id="modal-default">
+
+         <div class="modal-dialog">
+           <div class="modal-content">
+
+             <div class="modal-header">
+               <h4 class="modal-title">Add A Room On The Market</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <form action="phpScripts/addRoom.php" method = "POST" enctype="multipart/form-data">
+             <div class="modal-body">
+                  <form >
+               <p>Please Fill In the Form</p>
+               <div id="card" style="width:100%">
+                 <div id="card-content">
+                <label for="user-email" style="padding-top:13px">
+             &nbsp;Room Location
+             </label>
+             <div ></div>
+             <input style="margin-top:-25px"id="location" class="form-content" type="text" name="location" autocomplete="on" required />
+
+             <div class="form-border"></div>
+             <label for="user-password" style="padding-top:22px">&nbsp;Room Description
+             </label>
+                <div ></div>
+             <input style="margin-top:-25px" id="description" class="form-content" type="text" name="description" required />
+             <div class="form-border"></div>
+             <label for="user-password" style="padding-top:22px">&nbsp;Room Price
+             </label>
+               <div ></div>
+             <input style="margin-top:-25px" id="price" class="form-content" type="number" name="price" required />
+             <div class="form-border"></div>
+             <label for="user-password" style="padding-top:22px">&nbsp;Image Of The Room
+             </label>
+             <input  style="margin-top:-10px" required type="file" id="pic" class="form-content"  name="pic"  />
+
+             <a href="#">
+
+             </a>
+
+             </div>
+             </div>
+             </div>
+             <div class="modal-footer justify-content-between">
+               <input style="margin-top:-10px" id="submit-btn" type="submit" name="submit" value="Save changes" />
+             </div>
+     </form>
+           </div>
+           <!-- /.modal-content -->
+         </div>
+         <!-- /.modal-dialog -->
+
+       </div>
+       <!-- /.modal -->
+
 
   <!-- end sale section -->
 

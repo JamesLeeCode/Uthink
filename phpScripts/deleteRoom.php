@@ -4,16 +4,14 @@
 
   //Getting Data from the form
   //jobCode is the primary key
-  $fullNames = $_POST['fullNames'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+  $id = $_GET['id'];
+
 
  //Open DB Connection
  $conn = OpenCon();
   // Enter Designations Into DB
  if(!$conn -> query(
-   " INSERT INTO users (fullnames,	email,	password	)
-   VALUES ('$fullNames','$email','$password')"
+   " Delete FROM rooms WHERE room_id = '$id'"
    ))
    {
      echo("Error description: ". $conn->error);
@@ -74,6 +72,6 @@
  CloseCon($conn);
 
 */
- header("Location:../login.php?statusRegister=registered");
+ header("Location:../adminDashboard.php");
  exit();
  ?>

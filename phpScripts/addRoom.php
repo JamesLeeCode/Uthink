@@ -4,16 +4,62 @@
 
   //Getting Data from the form
   //jobCode is the primary key
-  $fullNames = $_POST['fullNames'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+  $location = $_POST['location'];
+  $description = $_POST['description'];
+  $price = $_POST['price'];
 
+
+  function generateRandomString($length = 13) {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) {
+          $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
+  }
+  $room_id = generateRandomString();
  //Open DB Connection
+
+ if(isset($_FILES["pic"]) && $_FILES["pic"]["error"] == 0){
+           $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+           $filename = $_FILES["pic"]["name"];
+           $filetype = $_FILES["pic"]["type"];
+           $filesize = $_FILES["pic"]["size"];
+
+           // Verify file extension
+           $ext = pathinfo($filename, PATHINFO_EXTENSION);
+           if(!array_key_exists($ext, $allowed)) die("Error: Please select a valid file format.");
+
+           // Verify file size - 5MB maximum
+           $maxsize = 5 * 1024 * 1024;
+           if($filesize > $maxsize) die("Error: File size is larger than the allowed limit.");
+
+           // Verify MYME type of the file
+           if(in_array($filetype, $allowed)){
+               // Check whether file exists before uploading it
+               if(file_exists("upload/" . $filename)){
+                   echo $filename . " is already exists.";
+               } else{
+                   move_uploaded_file($_FILES["pic"]["tmp_name"], "upload/" . $filename);
+                     $pic = $filename;
+               }
+           } else{
+               echo "Error: There was a problem uploading your file. Please try again.";
+           }
+       } else{
+           echo "Error: " . $_FILES["pic"]["error"];
+       }
+
+
+
+
+
  $conn = OpenCon();
   // Enter Designations Into DB
  if(!$conn -> query(
-   " INSERT INTO users (fullnames,	email,	password	)
-   VALUES ('$fullNames','$email','$password')"
+   " INSERT INTO rooms (room_id,	location,	description,price, pic	)
+   VALUES ('$room_id','$location','$description', '$price','$pic')"
    ))
    {
      echo("Error description: ". $conn->error);
@@ -74,6 +120,6 @@
  CloseCon($conn);
 
 */
- header("Location:../login.php?statusRegister=registered");
+ header("Location:../adminDashboard.php");
  exit();
  ?>

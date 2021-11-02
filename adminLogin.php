@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 
@@ -12,14 +14,15 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
   <title>UThink</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 
-  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet">
   <!-- Custom styles for this template -->
@@ -31,16 +34,23 @@
 </head>
 
 <body>
+
   <?php
-if (isset($_GET['statusRegister'])) {
- echo '<script type="text/javascript">toastr.error("You have been registered on system, please login", "You Have Registered") </script>';
+
+  if (!empty($_POST['email'] ) and !empty($_POST['password'] ) ) {
+    if($_POST['email']=="admin@mail.com" && $_POST['password']=="nopassword")
+    {
+      header("Location:adminDashboard.php");
+      exit();
+    }
+    else{
+       echo '<script type="text/javascript">toastr.error("Please enter the correct information", "Incorrect Info Entered") </script>';
+    }
   }
 
-  if (isset($_GET['status'])) {
+   ?>
 
-   echo '<script type="text/javascript">toastr.error("Please check your login details and try again", "Incorrect Details Entered") </script>';
-    }
- ?>
+
 
   <div class="hero_area">
     <!-- header section strats -->
@@ -54,11 +64,9 @@ if (isset($_GET['statusRegister'])) {
             <ul class="navbar-nav justify-content-between ">
               <div class="User_option">
                 <li class="">
-                  <a class="mr-4" href="">
-                    Login
-                  </a>
-                  <a class="" href="registerUser.php">
-                    Sign up
+
+                  <a class="" href="dashboard.php">
+                    Back
                   </a>
                 </li>
               </div>
@@ -83,10 +91,10 @@ if (isset($_GET['statusRegister'])) {
                         <span> UTHNK</span> <br>
 
                       </h1>
-                     <h2>LOGIN</h2>
+                     <h2>ADMINLOGIN</h2>
 
                        </div>
-                <form method="post" action="phpScripts/login.php" class="form">
+                <form method="post"  class="form">
                <label for="user-email" style="padding-top:13px">
             &nbsp;Email
             </label>
