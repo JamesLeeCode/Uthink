@@ -144,38 +144,58 @@ while ($row = mysqli_fetch_assoc($result)) {
                              <h2>    Lease Agreement</h2>
 
                                </div>
-                        <form method="post" action="phpScripts/sendRequest.php" class="form">
+                        <form method="post" action="phpScripts/sendRequest.php" class="multipart/form-data">
 
                        Thank you for taking interest in the room, please note the follow as the Terms and Conditions of the room.
                        the price of the room is R<?php echo  $row['price']; ?> Per month. <br><br> A R1000 deposit must be paid to fully secure the room. The room is located at:  <?php echo  $row['location']; ?>.
                         The landlord of this room will be UTHNK, any problems with room will be addressed to UTHINK.
                         </h6>
                        </label>
+                    </form>
+
+                    <form action="phpScripts/sendRequest.php" method = "POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                         <form >
+                      <p>Please Fill In the Form</p>
+                      <div id="card" style="width:100%">
+                        <div id="card-content">
+                          <label for="user-email" style="padding-top:13px">
+                       &nbsp;Tenant Name
+                       </label>
+
+
+                       <input style="margin-top:-12px; width:100%" id="name" class="form-content" type="text" name="name" autocomplete="on" required />
+                       <div class="form-border"></div>
+
                        <label for="user-email" style="padding-top:13px">
-                    &nbsp;Tenant Name
+                    &nbsp;Tenant Phone
                     </label>
-                    <input style="margin-top:-12px" id="name" class="form-content" type="text" name="name" autocomplete="on" required />
+                    <input style="margin-top:-12px; width:100%" id="phone" maxlength="10" class="form-content" type="phone" name="phone" autocomplete="on" required />
                     <div class="form-border"></div>
 
-                    <label for="user-email" style="padding-top:13px">
-                 &nbsp;Tenant Phone
-                 </label>
-                 <input style="margin-top:-12px" id="phone" maxlength="10" class="form-content" type="phone" name="phone" autocomplete="on" required />
-                 <div class="form-border"></div>
+                       <label for="user-password" style="padding-top:22px">&nbsp;When do you want to move in
+                       </label>
+                       <input  style="margin-top:-12px" id="date" class="form-content" type="date" name="date" min="<?= date('Y-m-d'); ?>" required />
+                       <div class="form-border"></div>
+                       <input  id="address" class="form-content" type="text" name="address" hidden value="<?php echo  $row['location']; ?>" />
+                       <input  id="price" class="form-content" type="text" name="price" hidden value="<?php echo  $row['price']; ?>" />
+                        <input  id="id" class="form-content" type="text" name="id" hidden value="<?php echo  $_GET['id']; ?>" />
+                       <label for="user-password" style="padding-top:22px">Upload Proof Of Payment
+                       </label>
+                    <input  style="margin-top:-10px" required type="file" id="pic" class="form-content"  name="pic"  />
 
-                    <label for="user-password" style="padding-top:22px">&nbsp;When do you want to move in
-                    </label>
-                    <input  style="margin-top:-12px" id="date" class="form-content" type="date" name="date" min="<?= date('Y-m-d'); ?>" required />
-                    <div class="form-border"></div>
-                    <input  id="address" class="form-content" type="text" name="address" hidden value="<?php echo  $row['location']; ?>" />
-                    <input  id="price" class="form-content" type="text" name="price" hidden value="<?php echo  $row['price']; ?>" />
-              
                     <a href="#">
 
                     </a>
-                    <input id="submit-btn" type="submit" name="submit" value="SIGN LEASE" />
 
-                    </form>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                      <input style="margin-top:-10px" id="submit-btn" type="submit" name="submit" value="Save changes" />
+                    </div>
+                   </form>
+
                     </div>
                     </div>
           </div>

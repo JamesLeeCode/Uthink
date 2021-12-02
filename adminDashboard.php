@@ -92,10 +92,10 @@
       <div class="heading_container">
         <br>
         <h2>
-          Marketed Rooms
+           Rooms Taken Already
         </h2>
         <p>
-          When a room has been taken please remove it from the Market
+          Rooms that are already taken by students
         </p>
       </div>
       <div class="sale_container">
@@ -105,10 +105,10 @@ include 'phpScripts/db_connection.php';
 $conn = OpenCon();
 if (!empty($_POST['location']))  {
   $location = $_POST['location'];
-$sql = "SELECT * FROM rooms WHERE location LIKE '%$location%'  ";
+$sql = "SELECT * FROM rooms WHERE location LIKE '%$location%' AND status = 'open'  ";
 }
 else {
-$sql = "SELECT * FROM rooms";
+$sql = "SELECT * FROM rooms WHERE status = 'taken'";
 }
 
 $result = $conn->query($sql);
@@ -133,8 +133,8 @@ while ($row = mysqli_fetch_assoc($result)) {
               <?php echo  $row['description']; ?>
             </p>
             <div style="margin-top:-45px" class="btn-box">
-                <a href="phpScripts/deleteRoom.php?id=<?php echo  $row['room_id']; ?>" class="">
-                  Delete Room
+                <a href="phpScripts/openRoom.php?id=<?php echo  $row['room_id']; ?>" class="">
+                  Make Room Available
                 </a>
               </div>
           </div>
@@ -149,6 +149,68 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
   </section>
 
+
+    <section class="sale_section layout_padding-bottom">
+
+      <div class="container-fluid">
+        <div class="heading_container">
+          <br>
+          <h2>
+             Proof Of Payment
+          </h2>
+          <p>
+            When a room has been taken please remove it from the Market
+          </p>
+        </div>
+        <div class="sale_container">
+          <?php
+
+
+
+
+  $sql = "SELECT * FROM requests";
+
+
+  $result = $conn->query($sql);
+  //Store the results in an array
+  $arr = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $arr[] = $row;
+
+     foreach ($arr as $row){
+  }
+
+            ?>
+          <div class="box">
+            <div class="img-box">
+              <img src="phpScripts/upload/<?php echo  $row['image']; ?>" alt="">
+            </div>
+            <div class="detail-box">
+              <h6>
+              Tenant Name:  <?php echo  $row['tenantName']; ?>
+              </h6>
+              <h6>
+              Tenant Phone:  <?php echo  $row['TenantPhone']; ?>
+              </h6>
+              <p>
+              The tenant would like to move to in on the following date:  <?php echo  $row['dateMoving']; ?>
+              </p>
+              <div style="margin-top:-45px" class="btn-box">
+                  <a href="phpScripts/deleteRoom.php?id=<?php echo  $row['roomId']; ?>&requestID=<?php echo  $row['requestID']; ?>" class="">
+                    Reserve Room
+                  </a>
+                </div>
+            </div>
+
+          </div>
+        <?php } ?>
+
+
+        <div class="btn-box">
+
+        </div>
+      </div>
+    </section>
 
   <div class="modal fade" id="modal-default">
 

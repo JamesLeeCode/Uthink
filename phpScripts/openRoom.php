@@ -5,7 +5,7 @@
   //Getting Data from the form
   //jobCode is the primary key
   $id = $_GET['id'];
-  $requestID = $_GET['requestID'];
+
 
  //Open DB Connection
  $conn = OpenCon();
@@ -17,19 +17,11 @@
      echo("Error description: ". $conn->error);
    }*/
    if(!$conn -> query(
-  "UPDATE rooms SET status = 'taken' Where room_id='$id'"
+  "UPDATE rooms SET status = 'open' Where room_id='$id'"
   ))
   {
     echo("Error description: ". $mysqli->error);
   }
-
-
- if(!$conn -> query(
-   " Delete FROM requests WHERE requestID = '$requestID'"
-   ))
-   {
-     echo("Error description: ". $conn->error);
-   }
  /*
 
    use PHPMailer\PHPMailer\PHPMailer;

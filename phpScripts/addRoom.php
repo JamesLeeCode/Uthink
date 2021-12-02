@@ -58,8 +58,8 @@
  $conn = OpenCon();
   // Enter Designations Into DB
  if(!$conn -> query(
-   " INSERT INTO rooms (room_id,	location,	description,price, pic	)
-   VALUES ('$room_id','$location','$description', '$price','$pic')"
+   " INSERT INTO rooms (room_id,	location,	description,price, pic, status	)
+   VALUES ('$room_id','$location','$description', '$price','$pic', 'open')"
    ))
    {
      echo("Error description: ". $conn->error);

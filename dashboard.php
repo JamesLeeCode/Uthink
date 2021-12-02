@@ -139,10 +139,10 @@ include 'phpScripts/db_connection.php';
 $conn = OpenCon();
 if (!empty($_POST['location']))  {
   $location = $_POST['location'];
-$sql = "SELECT * FROM rooms WHERE location LIKE '%$location%'  ";
+$sql = "SELECT * FROM rooms WHERE location LIKE '%$location%' AND status = 'open'";
 }
 else {
-$sql = "SELECT * FROM rooms";
+$sql = "SELECT * FROM rooms WHERE status = 'open'";
 }
 
 $result = $conn->query($sql);
